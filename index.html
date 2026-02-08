@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio | Marlinde</title>
+    <meta
+      name="description"
+      content="Minimalistische fotografiewebsite met galerij en korte bio."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Ga naar inhoud</a>
+
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="logo" href="index.html">Marlinde</a>
+        <nav class="nav" aria-label="Hoofd">
+          <a class="active" href="#gallery">Galerij</a>
+          <a href="#about">Over</a>
+          <a class="button" href="mailto:hello@marlindestudio.com">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero container" data-animate>
+        <div class="hero-text">
+          <p class="kicker" data-animate-child>Fotograaf in Amsterdam</p>
+          <h1 data-animate-child>
+            Minimalistische galerij met beelden die zacht en echt voelen.
+          </h1>
+          <div class="hero-actions" data-animate-child>
+            <a class="button" href="#gallery">Bekijk foto's</a>
+            <a class="ghost" href="#about">Over</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery" class="section container" data-animate>
+        <div class="gallery-head" data-animate-child>
+          <h2 class="section-title">Galerij</h2>
+          <p class="gallery-sub">Filter per categorie.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter galerij" data-animate-child>
+          <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">
+            Alles
+          </button>
+          <button class="chip" type="button" data-filter="portret" aria-pressed="false">
+            Portret
+          </button>
+          <button class="chip" type="button" data-filter="brand" aria-pressed="false">
+            Brand
+          </button>
+          <button class="chip" type="button" data-filter="travel" aria-pressed="false">
+            Travel
+          </button>
+        </div>
+
+        <div class="gallery-grid">
+          <figure class="card size-wide" data-category="portret">
+            <img
+              src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop"
+              alt="Portret in zacht ochtendlicht"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-lg" data-category="brand">
+            <img
+              src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop"
+              alt="Modeportret met natuurlijke tinten"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-wide" data-category="portret">
+            <img
+              src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop"
+              alt="Close-up portret met zacht contrast"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-mid" data-category="travel">
+            <img
+              src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop"
+              alt="Landschap in nevelig licht"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-tall" data-category="brand">
+            <img
+              src="https://images.unsplash.com/photo-1520975922297-6f1a63ed2a6b?q=80&w=1400&auto=format&fit=crop"
+              alt="Brandshoot met modern interieur"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-wide" data-category="travel">
+            <img
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+              alt="Zonlicht door bomen in het bos"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-mid" data-category="portret">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop"
+              alt="Vrouw in warme kleuren"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-wide" data-category="brand">
+            <img
+              src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop"
+              alt="Studio detail"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-mid" data-category="travel">
+            <img
+              src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
+              alt="Reisdetail"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card size-wide" data-category="portret">
+            <img
+              src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop"
+              alt="Portret detail"
+              loading="lazy"
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section id="about" class="section container" data-animate>
+        <div class="about">
+          <h2 class="section-title">Over</h2>
+          <p class="about-text">
+            Placeholder bio: korte intro over stijl, sfeer en wat je graag vastlegt.
+            Vervang dit met je eigen tekst wanneer je klaar bent.
+          </p>
+          <a class="ghost" href="mailto:hello@marlindestudio.com">
+            hello@marlindestudio.com
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>
+          <strong>Marlinde</strong>
+          <p>Amsterdam, Nederland</p>
+        </div>
+        <div>
+          <a href="mailto:hello@marlindestudio.com">hello@marlindestudio.com</a>
+        </div>
+      </div>
+      <p class="copyright">© <span id="year"></span> Marlinde</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
