@@ -26,9 +26,6 @@ revealBlocks.forEach((block) => revealObserver.observe(block));
 
 const heroStage = document.getElementById("hero-stage");
 const heroWord = document.getElementById("kinetic-word");
-const heroTag = document.getElementById("hero-pill-tag");
-const heroPlace = document.getElementById("hero-pill-place");
-const heroTimelineBar = document.getElementById("hero-timeline-bar");
 const heroDesktopViewport = window.matchMedia("(min-width: 621px)");
 
 const heroSlides = [
@@ -36,29 +33,21 @@ const heroSlides = [
     src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop",
     alt: "Portret in zacht licht",
     word: "portret",
-    tag: "Portret",
-    place: "Hasselt",
   },
   {
     src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1400&auto=format&fit=crop",
     alt: "Close-up portret",
     word: "editorial",
-    tag: "Brand",
-    place: "Belgie",
   },
   {
     src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1400&auto=format&fit=crop",
     alt: "Landschap met nevel",
     word: "travel",
-    tag: "Travel",
-    place: "Europa",
   },
   {
     src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop",
     alt: "Abstracte fotografiedetail",
     word: "vorm",
-    tag: "Fine Art",
-    place: "Studio",
   },
 ];
 
@@ -76,21 +65,12 @@ const preloadHeroSlide = (slide) => {
 
 const updateHeroMeta = (slide) => {
   if (heroWord) heroWord.textContent = slide.word;
-  if (heroTag) heroTag.textContent = slide.tag;
-  if (heroPlace) heroPlace.textContent = slide.place;
 };
 
 const applyHeroSlide = (node, slide) => {
   if (!node) return;
   node.src = slide.src;
   node.alt = slide.alt;
-};
-
-const restartHeroTimeline = () => {
-  if (!heroTimelineBar || prefersReducedMotion || !heroDesktopViewport.matches) return;
-  heroTimelineBar.classList.remove("is-running");
-  void heroTimelineBar.offsetWidth;
-  heroTimelineBar.classList.add("is-running");
 };
 
 const rotateHeroSlide = () => {
@@ -109,7 +89,6 @@ const rotateHeroSlide = () => {
 
   heroSlideIndex = nextIndex;
   updateHeroMeta(nextSlide);
-  restartHeroTimeline();
 };
 
 const stopHeroRotation = () => {
@@ -117,7 +96,6 @@ const stopHeroRotation = () => {
     window.clearInterval(heroRotationTimer);
     heroRotationTimer = null;
   }
-  heroTimelineBar?.classList.remove("is-running");
 };
 
 const startHeroRotation = () => {
@@ -134,7 +112,6 @@ const startHeroRotation = () => {
 
   if (heroRotationTimer) return;
 
-  restartHeroTimeline();
   heroRotationTimer = window.setInterval(rotateHeroSlide, heroIntervalMs);
 };
 
@@ -165,8 +142,8 @@ if (heroStage && !prefersReducedMotion) {
     const rect = heroStage.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-    heroStage.style.setProperty("--tilt-x", `${x * 4}deg`);
-    heroStage.style.setProperty("--tilt-y", `${-y * 3.5}deg`);
+    heroStage.style.setProperty("--tilt-x", `${x * 3}deg`);
+    heroStage.style.setProperty("--tilt-y", `${-y * 2.5}deg`);
   });
 
   heroStage.addEventListener("pointerleave", () => {
@@ -176,6 +153,7 @@ if (heroStage && !prefersReducedMotion) {
 }
 
 const filterButtons = document.querySelectorAll(".chip[data-filter]");
+const filtersContainer = document.querySelector(".filters");
 const galleryItems = document.querySelectorAll(".gallery-item[data-category]");
 const mobileViewport = window.matchMedia("(max-width: 620px)");
 const lightbox = document.getElementById("lightbox");
@@ -348,6 +326,59 @@ if (typeof mobileViewport.addEventListener === "function") {
 }
 
 if (filterButtons.length > 0) {
+  const getActiveFilterButton = () => {
+    return (
+      document.querySelector(".chip[data-filter].is-active") ||
+      document.querySelector(".chip[data-filter][aria-pressed='true']")
+    );
+  };
+
+  let indicatorFrame = 0;
+
+  const updateFilterIndicator = (activeButton = getActiveFilterButton()) => {
+    if (!filtersContainer || !activeButton) return;
+
+    const containerRect = filtersContainer.getBoundingClientRect();
+    const buttonRect = activeButton.getBoundingClientRect();
+
+    if (containerRect.width === 0 || buttonRect.width === 0) return;
+
+    const left = Math.max(
+      0,
+      buttonRect.left - containerRect.left - filtersContainer.clientLeft
+    );
+
+    filtersContainer.style.setProperty("--indicator-left", `${Math.round(left)}px`);
+    filtersContainer.style.setProperty("--indicator-width", `${Math.round(buttonRect.width)}px`);
+  };
+
+  const scheduleFilterIndicator = (activeButton = getActiveFilterButton()) => {
+    window.cancelAnimationFrame(indicatorFrame);
+    indicatorFrame = window.requestAnimationFrame(() =>
+      updateFilterIndicator(activeButton)
+    );
+  };
+
+  scheduleFilterIndicator();
+
+  if (typeof ResizeObserver === "function" && filtersContainer) {
+    const indicatorObserver = new ResizeObserver(() => scheduleFilterIndicator());
+    indicatorObserver.observe(filtersContainer);
+    filterButtons.forEach((button) => indicatorObserver.observe(button));
+  } else {
+    window.addEventListener("resize", () => scheduleFilterIndicator());
+  }
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => scheduleFilterIndicator());
+  }
+
+  if (typeof mobileViewport.addEventListener === "function") {
+    mobileViewport.addEventListener("change", () => scheduleFilterIndicator());
+  } else if (typeof mobileViewport.addListener === "function") {
+    mobileViewport.addListener(() => scheduleFilterIndicator());
+  }
+
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const filter = button.dataset.filter;
@@ -363,6 +394,7 @@ if (filterButtons.length > 0) {
         item.classList.toggle("is-hidden", !matches);
       });
 
+      scheduleFilterIndicator(button);
       closeLightbox();
     });
   });
