@@ -3,6 +3,7 @@ const prefersReducedMotion = window.matchMedia(
 ).matches;
 
 const revealBlocks = document.querySelectorAll("[data-reveal]");
+const mobileRevealViewport = window.matchMedia("(max-width: 620px)");
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -22,7 +23,28 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.15 }
 );
 
+const revealGalleryInstantly = () => {
+  const gallerySection = document.getElementById("gallery");
+  if (!gallerySection) return;
+  gallerySection.classList.add("is-in");
+  const children = gallerySection.querySelectorAll("[data-reveal-child]");
+  children.forEach((child) => child.classList.add("is-in"));
+};
+
+const syncGalleryReveal = () => {
+  if (mobileRevealViewport.matches) {
+    revealGalleryInstantly();
+  }
+};
+
 revealBlocks.forEach((block) => revealObserver.observe(block));
+syncGalleryReveal();
+
+if (typeof mobileRevealViewport.addEventListener === "function") {
+  mobileRevealViewport.addEventListener("change", syncGalleryReveal);
+} else if (typeof mobileRevealViewport.addListener === "function") {
+  mobileRevealViewport.addListener(syncGalleryReveal);
+}
 
 const heroStage = document.getElementById("hero-stage");
 const heroWord = document.getElementById("kinetic-word");
