@@ -52,24 +52,29 @@ const heroDesktopViewport = window.matchMedia("(min-width: 621px)");
 
 const heroSlides = [
   {
-    src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop",
-    alt: "Portret in zacht licht",
+    src: "images/IMG_0742.jpeg",
+    alt: "Portret in natuurlijk licht",
     word: "portret",
   },
   {
-    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1400&auto=format&fit=crop",
-    alt: "Close-up portret",
+    src: "images/IMG_0996.jpeg",
+    alt: "Portret in zacht zijlicht",
     word: "editorial",
   },
   {
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1400&auto=format&fit=crop",
-    alt: "Landschap met nevel",
+    src: "images/IMG_0778.jpeg",
+    alt: "Reisbeeld in open lucht",
     word: "travel",
   },
   {
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop",
-    alt: "Abstracte fotografiedetail",
-    word: "vorm",
+    src: "images/IMG_0793-3.jpeg",
+    alt: "Verticale editorial compositie",
+    word: "editorial",
+  },
+  {
+    src: "images/IMG_1935.jpeg",
+    alt: "Portret in zachte buitenlucht",
+    word: "portret",
   },
 ];
 
@@ -195,7 +200,10 @@ let touchStartX = 0;
 const isLightboxOpen = () => lightbox?.classList.contains("is-open");
 const isMobileViewport = () => mobileViewport.matches;
 
-const toFullSizeUrl = (src) => src.replace(/([?&])w=\d+/, "$1w=2400");
+const toFullSizeUrl = (src) => {
+  if (!src.includes("images.unsplash.com")) return src;
+  return src.replace(/([?&])w=\d+/, "$1w=2400");
+};
 
 const getVisibleCards = () => {
   return Array.from(photoCards).filter((card) => {
