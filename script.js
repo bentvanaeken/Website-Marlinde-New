@@ -46,6 +46,29 @@ if (typeof mobileRevealViewport.addEventListener === "function") {
   mobileRevealViewport.addListener(syncGalleryReveal);
 }
 
+
+const updateCurrentAge = () => {
+  const ageNode = document.getElementById("current-age");
+  if (!ageNode) return;
+
+  const birthdateValue = ageNode.dataset.birthdate;
+  if (!birthdateValue) return;
+
+  const [year, month, day] = birthdateValue.split("-").map(Number);
+  if (!year || !month || !day) return;
+
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  const hasHadBirthdayThisYear =
+    today.getMonth() + 1 > month ||
+    (today.getMonth() + 1 === month && today.getDate() >= day);
+
+  if (!hasHadBirthdayThisYear) age -= 1;
+  ageNode.textContent = String(age);
+};
+
+updateCurrentAge();
+
 const heroStage = document.getElementById("hero-stage");
 const heroWord = document.getElementById("kinetic-word");
 const heroDesktopViewport = window.matchMedia("(min-width: 621px)");
